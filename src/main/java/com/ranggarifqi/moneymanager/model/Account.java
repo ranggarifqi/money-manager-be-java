@@ -23,8 +23,12 @@ public class Account extends Audit {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "balance", precision = 2)
-    private double balance;
+    @Column(name = "balance", precision = 2, nullable = false)
+    private double balance = 0;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_Accounts_Users")
+    private User user;
 
     public Account() {
     }
@@ -75,5 +79,13 @@ public class Account extends Audit {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

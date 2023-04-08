@@ -3,6 +3,8 @@ package com.ranggarifqi.moneymanager.model;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -25,6 +27,10 @@ public class User extends Audit {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @OneToMany(mappedBy = "user")
+    @JoinColumn(name = "fk_Accounts_Users")
+    private List<Account> accounts = new ArrayList<Account>();
 
     public User() {
         super();
@@ -76,5 +82,13 @@ public class User extends Audit {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
     }
 }
