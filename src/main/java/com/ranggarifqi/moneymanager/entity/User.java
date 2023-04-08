@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "Users")
-public class User {
+public class User extends Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,12 +27,4 @@ public class User {
 
     @Column(name = "password", nullable = false)
     private String password;
-
-    @Column(name = "createdAt", nullable = false)
-    @CreatedDate
-    private Date createdAt;
-
-    @Column(name = "updatedAt", nullable = true)
-    @LastModifiedDate
-    private Date updatedAt;
 }
