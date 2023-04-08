@@ -14,6 +14,9 @@ public class Transaction extends Audit {
     @Column(name = "id", nullable = false)
     private UUID id;
 
+    @Column(name = "userId", nullable = false)
+    private UUID userId;
+
     @Column(name = "fromAccountId", nullable = false)
     private UUID fromAccountId;
 
@@ -32,10 +35,18 @@ public class Transaction extends Audit {
     @Column(name = "note", nullable = true)
     private String note;
 
+    @ManyToOne
+    @JoinColumn(name = "fk_Transactions_Accounts_from")
+    private Account fromAccount;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_Transactions_Accounts_to")
+    private Account toAccount;
+
     public Transaction() {
     }
 
-    public Transaction(UUID fromAccountId, UUID toAccountId, String transactionType, Date date, double amount, String note, Timestamp createdAt, Timestamp updatedAt) {
+    public Transaction(UUID userId, UUID fromAccountId, UUID toAccountId, String transactionType, Date date, double amount, String note, Timestamp createdAt, Timestamp updatedAt) {
         super(createdAt, updatedAt);
         this.fromAccountId = fromAccountId;
         this.toAccountId = toAccountId;
@@ -43,6 +54,7 @@ public class Transaction extends Audit {
         this.date = date;
         this.amount = amount;
         this.note = note;
+        this.userId = userId;
     }
 
     public UUID getId() {
@@ -51,6 +63,14 @@ public class Transaction extends Audit {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public UUID getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 
     public UUID getFromAccountId() {
@@ -99,5 +119,21 @@ public class Transaction extends Audit {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public Account getFromAccount() {
+        return fromAccount;
+    }
+
+    public void setFromAccount(Account fromAccount) {
+        this.fromAccount = fromAccount;
+    }
+
+    public Account getToAccount() {
+        return toAccount;
+    }
+
+    public void setToAccount(Account toAccount) {
+        this.toAccount = toAccount;
     }
 }
