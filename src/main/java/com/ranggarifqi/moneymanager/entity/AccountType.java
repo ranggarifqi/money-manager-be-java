@@ -10,10 +10,6 @@ import java.util.UUID;
 public class AccountType extends Audit {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private UUID id;
-
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -23,14 +19,6 @@ public class AccountType extends Audit {
     public AccountType(String name, Date createdAt, Date updatedAt) {
         super(createdAt, updatedAt);
         this.name = name;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public String getName() {
