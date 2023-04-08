@@ -1,10 +1,8 @@
 package com.ranggarifqi.moneymanager.entity;
 
 import jakarta.persistence.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Entity
@@ -32,7 +30,7 @@ public class User extends Audit {
         super();
     }
 
-    public User(String name, String email, String phone, String password, Date createdAt, Date updatedAt) {
+    public User(String name, String email, String phone, String password, Timestamp createdAt, Timestamp updatedAt) {
         super(createdAt, updatedAt);
         this.name = name;
         this.email = email;

@@ -2,7 +2,7 @@ package com.ranggarifqi.moneymanager.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Entity
@@ -29,7 +29,7 @@ public class Account extends Audit {
     public Account() {
     }
 
-    public Account(String accountType, UUID userId, String name, double balance, Date createdAt, Date updatedAt) {
+    public Account(String accountType, UUID userId, String name, double balance, Timestamp createdAt, Timestamp updatedAt) {
         super(createdAt, updatedAt);
         this.accountType = accountType;
         this.userId = userId;

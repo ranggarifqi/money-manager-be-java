@@ -4,21 +4,22 @@ import jakarta.persistence.Column;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Audit {
     @Column(name = "createdAt", nullable = false)
     @CreatedDate
-    private Date createdAt;
+    private Timestamp createdAt;
 
     @Column(name = "updatedAt", nullable = true)
     @LastModifiedDate
-    private Date updatedAt;
+    private Timestamp updatedAt;
 
     public Audit() {
     }
 
-    public Audit(Date createdAt, Date updatedAt) {
+    public Audit(Timestamp createdAt, Timestamp updatedAt) {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -27,7 +28,7 @@ public class Audit {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -35,7 +36,7 @@ public class Audit {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

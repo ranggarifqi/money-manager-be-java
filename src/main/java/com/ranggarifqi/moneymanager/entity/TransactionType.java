@@ -2,7 +2,7 @@ package com.ranggarifqi.moneymanager.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "TransactionTypes")
@@ -15,7 +15,7 @@ public class TransactionType extends Audit {
     public TransactionType() {
     }
 
-    public TransactionType(String name, Date createdAt, Date updatedAt) {
+    public TransactionType(String name, Timestamp createdAt, Timestamp updatedAt) {
         super(createdAt, updatedAt);
         this.name = name;
     }
