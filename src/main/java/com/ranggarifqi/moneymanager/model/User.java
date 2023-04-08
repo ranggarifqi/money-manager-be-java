@@ -32,6 +32,10 @@ public class User extends Audit {
     @JoinColumn(name = "fk_Accounts_Users")
     private List<Account> accounts = new ArrayList<Account>();
 
+    @OneToMany
+    @JoinColumn(name = "fk_Transactions_Users")
+    private List<Transaction> transactions = new ArrayList<Transaction>();
+
     public User() {
         super();
     }
@@ -86,5 +90,17 @@ public class User extends Audit {
 
     public List<Account> getAccounts() {
         return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
+    }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
     }
 }
