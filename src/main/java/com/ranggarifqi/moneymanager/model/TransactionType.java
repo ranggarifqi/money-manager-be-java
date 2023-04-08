@@ -1,21 +1,21 @@
-package com.ranggarifqi.moneymanager.entity;
+package com.ranggarifqi.moneymanager.model;
 
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "AccountTypes")
-public class AccountType extends Audit {
+@Table(name = "TransactionTypes")
+public class TransactionType extends Audit {
 
     @Id
     @Column(name = "name", nullable = false)
     private String name;
 
-    public AccountType() {
+    public TransactionType() {
     }
 
-    public AccountType(String name, Timestamp createdAt, Timestamp updatedAt) {
+    public TransactionType(String name, Timestamp createdAt, Timestamp updatedAt) {
         super(createdAt, updatedAt);
         this.name = name;
     }

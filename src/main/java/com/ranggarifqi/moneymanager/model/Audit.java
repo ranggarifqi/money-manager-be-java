@@ -1,4 +1,4 @@
-package com.ranggarifqi.moneymanager.entity;
+package com.ranggarifqi.moneymanager.model;
 
 import jakarta.persistence.Column;
 import org.springframework.data.annotation.CreatedDate;
