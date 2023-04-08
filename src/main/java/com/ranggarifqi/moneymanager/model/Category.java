@@ -3,6 +3,8 @@ package com.ranggarifqi.moneymanager.model;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -27,6 +29,14 @@ public class Category extends Audit {
     @ManyToOne
     @JoinColumn(name = "fk_Categories_parent")
     private Category parent;
+
+    @ManyToMany
+    @JoinTable(
+        name = "TransactionCategories",
+        joinColumns = {@JoinColumn(name = "fk_TransactionCategories_Categories")},
+        inverseJoinColumns = {@JoinColumn(name = "fk_TransactionCategories_Transactions")}
+    )
+    private Set<Transaction> transactions = new HashSet<Transaction>();
 
     public Category() {
     }
@@ -75,5 +85,13 @@ public class Category extends Audit {
 
     public void setParent(Category parent) {
         this.parent = parent;
+    }
+
+    public Set<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(Set<Transaction> transactions) {
+        this.transactions = transactions;
     }
 }

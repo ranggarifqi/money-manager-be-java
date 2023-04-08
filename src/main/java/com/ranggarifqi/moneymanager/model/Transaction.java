@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -42,6 +44,14 @@ public class Transaction extends Audit {
     @ManyToOne
     @JoinColumn(name = "fk_Transactions_Accounts_to")
     private Account toAccount;
+
+    @ManyToMany
+    @JoinTable(
+        name = "TransactionCategories",
+        joinColumns = {@JoinColumn(name = "fk_TransactionCategories_Transactions")},
+        inverseJoinColumns = {@JoinColumn(name = "fk_TransactionCategories_Categories")}
+    )
+    private Set<Category> categories = new HashSet<Category>();
 
     public Transaction() {
     }
@@ -135,5 +145,13 @@ public class Transaction extends Audit {
 
     public void setToAccount(Account toAccount) {
         this.toAccount = toAccount;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
     }
 }
