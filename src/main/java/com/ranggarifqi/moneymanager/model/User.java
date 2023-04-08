@@ -87,8 +87,4 @@ public class User extends Audit {
     public List<Account> getAccounts() {
         return accounts;
     }
-
-    public void setAccounts(List<Account> accounts) {
-        this.accounts = accounts;
-    }
 }
