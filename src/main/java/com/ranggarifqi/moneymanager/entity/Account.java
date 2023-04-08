@@ -1,7 +1,6 @@
 package com.ranggarifqi.moneymanager.entity;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Type;
 
 import java.util.Date;
 import java.util.UUID;
@@ -15,8 +14,8 @@ public class Account extends Audit {
     @Column(name = "id", nullable = false)
     private UUID id;
 
-    @Column(name = "accountTypeId", nullable = false)
-    private UUID accountTypeId;
+    @Column(name = "accountType", nullable = false)
+    private String accountType;
 
     @Column(name = "userId", nullable = false)
     private UUID userId;
@@ -30,9 +29,9 @@ public class Account extends Audit {
     public Account() {
     }
 
-    public Account(UUID accountTypeId, UUID userId, String name, double balance, Date createdAt, Date updatedAt) {
+    public Account(String accountType, UUID userId, String name, double balance, Date createdAt, Date updatedAt) {
         super(createdAt, updatedAt);
-        this.accountTypeId = accountTypeId;
+        this.accountType = accountType;
         this.userId = userId;
         this.name = name;
         this.balance = balance;
@@ -46,12 +45,12 @@ public class Account extends Audit {
         this.id = id;
     }
 
-    public UUID getAccountTypeId() {
-        return accountTypeId;
+    public String getAccountType() {
+        return accountType;
     }
 
-    public void setAccountTypeId(UUID accountTypeId) {
-        this.accountTypeId = accountTypeId;
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
     }
 
     public UUID getUserId() {
