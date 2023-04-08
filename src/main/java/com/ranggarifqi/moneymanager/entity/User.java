@@ -32,9 +32,8 @@ public class User extends Audit {
         super();
     }
 
-    public User(UUID id, String name, String email, String phone, String password, Date createdAt, Date updatedAt) {
+    public User(String name, String email, String phone, String password, Date createdAt, Date updatedAt) {
         super(createdAt, updatedAt);
-        this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;

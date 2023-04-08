@@ -20,9 +20,8 @@ public class AccountType extends Audit {
     public AccountType() {
     }
 
-    public AccountType(UUID id, String name, Date createdAt, Date updatedAt) {
+    public AccountType(String name, Date createdAt, Date updatedAt) {
         super(createdAt, updatedAt);
-        this.id = id;
         this.name = name;
     }
 
