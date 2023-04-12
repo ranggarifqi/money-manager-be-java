@@ -11,7 +11,9 @@ CREATE TABLE IF NOT EXISTS "Users" (
     "email" VARCHAR NOT NULL UNIQUE,
     "phone" VARCHAR NOT NULL UNIQUE,
     "password" VARCHAR NOT NULL,
+    "createdAt" timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamptz,
     CONSTRAINT "Users_email_unique_idx" UNIQUE ("email"),
     CONSTRAINT "Users_phone_unique_idx" UNIQUE ("phone")
 )
---rollback DROP TABLE Users;
+--rollback DROP TABLE IF EXISTS "Users";
