@@ -46,7 +46,39 @@ CREATE TABLE IF NOT EXISTS "Accounts" (
     "balance" NUMERIC(14, 2) NOT NULL DEFAULT 0,
     "createdAt" timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" timestamptz,
-    CONSTRAINT "fk_accountType" FOREIGN KEY("accountType") REFERENCES "AccountTypes"("name") ON DELETE CASCADE,
-    CONSTRAINT "fk_userId" FOREIGN KEY("userId") REFERENCES "Users"("id") ON DELETE CASCADE
+    CONSTRAINT "fk_Accounts_AccountTypes" FOREIGN KEY("accountType") REFERENCES "AccountTypes"("name") ON DELETE CASCADE,
+    CONSTRAINT "fk_Accounts_Users" FOREIGN KEY("userId") REFERENCES "Users"("id") ON DELETE CASCADE
 );
 --rollback DROP TABLE IF EXISTS "Accounts";
+
+--changeset rangga:1681394700_create_transaction_types_table
+CREATE TABLE IF NOT EXISTS "TransactionTypes" (
+    "name" VARCHAR NOT NULL PRIMARY KEY,
+    "createdAt" timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamptz
+);
+INSERT INTO "TransactionTypes" ("name")
+VALUES
+    ("Income"),
+    ("Expense"),
+    ("Transfer")
+;
+--rollback DROP TABLE IF EXISTS "TransactionTypes";
+
+--changeset rangga:1681394710_create_transactions_table
+CREATE TABLE IF NOT EXISTS "Transactions" (
+    "id" UUID NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
+    "userId" UUID NOT NULL,
+    "fromAccountId" UUID NOT NULL,
+    "toAccountId" UUID NULL,
+    "transactionType" VARCHAR NOT NULL,
+    "date" DATE NOT NULL,
+    "amount" NUMERIC(14, 2) NOT NULL,
+    "note" TEXT NULL,
+    "createdAt" timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamptz,
+    CONSTRAINT "fk_Transactions_Accounts_from" FOREIGN KEY("fromAccountId") REFERENCES "Accounts"("id") ON DELETE NO ACTION,
+    CONSTRAINT "fk_Transactions_Accounts_to" FOREIGN KEY("toAccountId") REFERENCES "Accounts"("id") ON DELETE NO ACTION
+);
+--rollback DROP TABLE IF EXISTS "Transactions";
+
