@@ -19,6 +19,9 @@ public class Category extends Audit {
     @Column(name = "parentId", nullable = true)
     private UUID parentId;
 
+    @Column(name = "userId", nullable = false)
+    private UUID userId;
+
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -41,9 +44,10 @@ public class Category extends Audit {
     public Category() {
     }
 
-    public Category(UUID parentId, String name, Timestamp createdAt, Timestamp updatedAt) {
+    public Category(UUID parentId, UUID userId, String name, Timestamp createdAt, Timestamp updatedAt) {
         super(createdAt, updatedAt);
         this.parentId = parentId;
+        this.userId = userId;
         this.name = name;
     }
 
@@ -93,5 +97,13 @@ public class Category extends Audit {
 
     public void setTransactions(Set<Transaction> transactions) {
         this.transactions = transactions;
+    }
+
+    public UUID getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 }
