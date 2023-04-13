@@ -94,3 +94,15 @@ CREATE TABLE IF NOT EXISTS "Categories" (
     CONSTRAINT "fk_Categories_parent" FOREIGN KEY("parentId") REFERENCES "Categories"("id") ON DELETE SET NULL
 );
 --rollback DROP TABLE IF EXISTS "Categories";
+
+--changeset rangga:1681394730_create_transaction_categories_table
+CREATE TABLE IF NOT EXISTS "TransactionCategories" (
+    "id" UUID NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
+    "transactionId" UUID NOT NULL,
+    "categoryId" UUID NOT NULL,
+    "createdAt" timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamptz,
+    CONSTRAINT "fk_TransactionCategories_Transactions" FOREIGN KEY("transactionId") REFERENCES "Transactions"("id") ON DELETE CASCADE,
+    CONSTRAINT "fk_TransactionCategories_Categories" FOREIGN KEY("categoryId") REFERENCES "Categories"("id") ON DELETE CASCADE
+);
+--rollback DROP TABLE IF EXISTS "TransactionCategories";
