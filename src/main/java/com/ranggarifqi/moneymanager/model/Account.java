@@ -20,10 +20,10 @@ public class Account extends Audit {
     @Column(name = "userId", nullable = false)
     private UUID userId;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "balance", precision = 2, nullable = false)
+    @Column(name = "balance", precision = 2, scale = 14, nullable = false)
     private double balance = 0;
 
     @ManyToOne

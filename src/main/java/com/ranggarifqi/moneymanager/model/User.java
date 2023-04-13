@@ -29,7 +29,6 @@ public class User extends Audit {
     private String password;
 
     @OneToMany(mappedBy = "user")
-    @JoinColumn(name = "fk_Accounts_Users")
     private List<Account> accounts = new ArrayList<Account>();
 
     @OneToMany

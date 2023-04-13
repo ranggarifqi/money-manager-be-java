@@ -1,0 +1,4 @@
+changelogFile: classpath:migrations/changelog.sql
+url:
+username:
+password:

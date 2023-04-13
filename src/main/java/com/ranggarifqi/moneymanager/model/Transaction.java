@@ -31,7 +31,7 @@ public class Transaction extends Audit {
     @Column(name = "date", nullable = false)
     private Date date;
 
-    @Column(name = "amount", precision = 2, nullable = false)
+    @Column(name = "amount", scale = 14, precision = 2, nullable = false)
     private double amount;
 
     @Column(name = "note", nullable = true)
