@@ -82,3 +82,15 @@ CREATE TABLE IF NOT EXISTS "Transactions" (
 );
 --rollback DROP TABLE IF EXISTS "Transactions";
 
+--changeset rangga:1681394720_create_categories_table
+CREATE TABLE IF NOT EXISTS "Categories" (
+    "id" UUID NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
+    "parentId" UUID NULL,
+    "userId" UUID NOT NULL,
+    "name" VARCHAR NOT NULL,
+    "createdAt" timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamptz,
+    CONSTRAINT "fk_Categories_Users" FOREIGN KEY("userId") REFERENCES "Users"("id") ON DELETE CASCADE,
+    CONSTRAINT "fk_Categories_parent" FOREIGN KEY("parentId") REFERENCES "Categories"("id") ON DELETE SET NULL
+);
+--rollback DROP TABLE IF EXISTS "Categories";
