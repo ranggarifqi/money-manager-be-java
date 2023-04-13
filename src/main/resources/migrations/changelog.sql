@@ -26,14 +26,14 @@ CREATE TABLE IF NOT EXISTS "AccountTypes" (
 );
 INSERT INTO "AccountTypes" ("name")
 VALUES
-    ("Cash"),
-    ("Receivables"),
-    ("Loans"),
-    ("Savings"),
-    ("Prepaid"),
-    ("Investments"),
-    ("Overdrafts"),
-    ("Others")
+    ('Cash'),
+    ('Receivables'),
+    ('Loans'),
+    ('Savings'),
+    ('Prepaid'),
+    ('Investments'),
+    ('Overdrafts'),
+    ('Others')
 ;
 --rollback DROP TABLE IF EXISTS "AccountTypes";
 
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS "Accounts" (
     "balance" NUMERIC(14, 2) NOT NULL DEFAULT 0,
     "createdAt" timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" timestamptz,
-    CONSTRAINT "fk_Accounts_AccountTypes" FOREIGN KEY("accountType") REFERENCES "AccountTypes"("name") ON DELETE CASCADE,
+    CONSTRAINT "fk_Accounts_AccountTypes" FOREIGN KEY("accountType") REFERENCES "AccountTypes"("name") ON DELETE NO ACTION,
     CONSTRAINT "fk_Accounts_Users" FOREIGN KEY("userId") REFERENCES "Users"("id") ON DELETE CASCADE
 );
 --rollback DROP TABLE IF EXISTS "Accounts";
@@ -59,9 +59,9 @@ CREATE TABLE IF NOT EXISTS "TransactionTypes" (
 );
 INSERT INTO "TransactionTypes" ("name")
 VALUES
-    ("Income"),
-    ("Expense"),
-    ("Transfer")
+    ('Income'),
+    ('Expense'),
+    ('Transfer')
 ;
 --rollback DROP TABLE IF EXISTS "TransactionTypes";
 
@@ -77,8 +77,10 @@ CREATE TABLE IF NOT EXISTS "Transactions" (
     "note" TEXT NULL,
     "createdAt" timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" timestamptz,
-    CONSTRAINT "fk_Transactions_Accounts_from" FOREIGN KEY("fromAccountId") REFERENCES "Accounts"("id") ON DELETE NO ACTION,
-    CONSTRAINT "fk_Transactions_Accounts_to" FOREIGN KEY("toAccountId") REFERENCES "Accounts"("id") ON DELETE NO ACTION
+    CONSTRAINT "fk_Transactions_Users" FOREIGN KEY ("userId") REFERENCES "Users"("id") ON DELETE CASCADE,
+    CONSTRAINT "fk_Transactions_Accounts_from" FOREIGN KEY("fromAccountId") REFERENCES "Accounts"("id") ON DELETE CASCADE,
+    CONSTRAINT "fk_Transactions_Accounts_to" FOREIGN KEY("toAccountId") REFERENCES "Accounts"("id") ON DELETE CASCADE,
+    CONSTRAINT "fk_Transactions_TransactionTypes" FOREIGN KEY("transactionType") REFERENCES "TransactionTypes"("name") ON DELETE NO ACTION
 );
 --rollback DROP TABLE IF EXISTS "Transactions";
 
