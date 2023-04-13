@@ -68,10 +68,7 @@
 				<artifactId>liquibase-maven-plugin</artifactId>
 				<version>4.4.3</version>
 				<configuration>
-					<changeLogFile>classpath:migrations/changelog.sql</changeLogFile>
-					<url>jdbc:postgresql://localhost:5432/money-manager</url>
-					<username>postgres</username>
-					<password/>
+					<propertyFile>./src/main/resources/liquibase.properties</propertyFile>
 				</configuration>
 				<dependencies>
 					<dependency>
