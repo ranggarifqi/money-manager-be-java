@@ -27,7 +27,7 @@ public class UserRepository implements IUserRepository {
         List<User> users = query.getResultList();
 
         if (users.size() == 0) {
-            throw new NotFoundException("User with email " + email + " not found");
+            return null;
         }
 
         return users.get(0);
