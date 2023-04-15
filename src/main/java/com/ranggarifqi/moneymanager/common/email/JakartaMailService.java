@@ -5,9 +5,11 @@ import com.ranggarifqi.moneymanager.common.exception.InternalServerException;
 import jakarta.mail.*;
 import jakarta.mail.internet.*;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.util.Properties;
 
+@Service
 public class JakartaMailService implements IEmailService{
 
     @Value("${email.host}")
