@@ -32,7 +32,7 @@ public class UserService implements IUserService{
 
         // Save the user
         User newUser = new User(payload.name(), payload.email(), payload.phone(), password, null, null);
-        this.userRepository.create(newUser);
+        userRepository.create(newUser);
 
         // TODO: send verification email
         return newUser;
