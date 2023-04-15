@@ -54,4 +54,12 @@ public class UserService implements IUserService{
 
         return newUser;
     }
+
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
+    public void setUserVerificationPath(String userVerificationPath) {
+        this.userVerificationPath = userVerificationPath;
+    }
 }
