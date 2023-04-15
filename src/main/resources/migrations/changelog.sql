@@ -108,3 +108,10 @@ CREATE TABLE IF NOT EXISTS "TransactionCategories" (
     CONSTRAINT "fk_TransactionCategories_Categories" FOREIGN KEY("categoryId") REFERENCES "Categories"("id") ON DELETE CASCADE
 );
 --rollback DROP TABLE IF EXISTS "TransactionCategories";
+
+--changeset rangga:1681555532_add_user_verification_columns_to_users_table
+ALTER TABLE "Users"
+ADD COLUMN "verifyToken" VARCHAR NULL,
+ADD COLUMN "verifiedAt" timestamptz NULL
+;
+--rollback ALTER TABLE "Users" DROP COLUMN "verifyToken", DROP COLUMN "verifiedAt";
