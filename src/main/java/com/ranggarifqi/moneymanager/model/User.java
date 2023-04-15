@@ -28,6 +28,12 @@ public class User extends Audit {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "verifyToken", nullable = true)
+    private String verifyToken;
+
+    @Column(name = "verifiedAt", nullable = true)
+    private Timestamp verifiedAt;
+
     @OneToMany(mappedBy = "user")
     private List<Account> accounts = new ArrayList<Account>();
 
@@ -39,12 +45,14 @@ public class User extends Audit {
         super();
     }
 
-    public User(String name, String email, String phone, String password, Timestamp createdAt, Timestamp updatedAt) {
+    public User(String name, String email, String phone, String password, String verifyToken, Timestamp createdAt, Timestamp updatedAt, Timestamp verifiedAt) {
         super(createdAt, updatedAt);
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.password = password;
+        this.verifyToken = verifyToken;
+        this.verifiedAt = verifiedAt;
     }
 
     public UUID getId() {
@@ -101,5 +109,21 @@ public class User extends Audit {
 
     public void setTransactions(List<Transaction> transactions) {
         this.transactions = transactions;
+    }
+
+    public String getVerifyToken() {
+        return verifyToken;
+    }
+
+    public void setVerifyToken(String verifyToken) {
+        this.verifyToken = verifyToken;
+    }
+
+    public Timestamp getVerifiedAt() {
+        return verifiedAt;
+    }
+
+    public void setVerifiedAt(Timestamp verifiedAt) {
+        this.verifiedAt = verifiedAt;
     }
 }

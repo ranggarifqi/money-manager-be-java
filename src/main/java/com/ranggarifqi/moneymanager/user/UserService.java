@@ -31,7 +31,7 @@ public class UserService implements IUserService{
         String password = passwordEncoder.encode(payload.rawPassword());
 
         // Save the user
-        User newUser = new User(payload.name(), payload.email(), payload.phone(), password, null, null);
+        User newUser = new User(payload.name(), payload.email(), payload.phone(), password, null, null, null, null);
         userRepository.create(newUser);
 
         // TODO: send verification email
