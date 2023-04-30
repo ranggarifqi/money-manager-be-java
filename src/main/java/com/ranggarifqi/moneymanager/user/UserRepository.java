@@ -44,6 +44,8 @@ public class UserRepository implements IUserRepository {
         query.setParameter("verifyToken", token);
 
         List<User> users = query.getResultList();
+        this.entityManager.detach(users);
+
         if (users.size() == 0) {
             return null;
         }
@@ -55,5 +57,11 @@ public class UserRepository implements IUserRepository {
     @Override
     public void create(User payload) {
         this.entityManager.persist(payload);
+    }
+
+    @Transactional
+    @Override
+    public void update(User payload) {
+        this.entityManager.merge(payload);
     }
 }

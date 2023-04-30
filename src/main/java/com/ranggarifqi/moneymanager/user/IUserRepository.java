@@ -8,4 +8,6 @@ public interface IUserRepository {
     User findByVerifyToken(String token);
 
     void create(User payload);
+
+    void update(User payload);
 }
