@@ -1,6 +1,7 @@
 package com.ranggarifqi.moneymanager.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Type;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -8,37 +9,36 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Users")
+@Table(name = "`Users`")
 public class User extends Audit {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "`name`", nullable = false)
     private String name;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "`email`", nullable = false)
     private String email;
 
-    @Column(name = "phone", nullable = false)
+    @Column(name = "`phone`", nullable = false)
     private String phone;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "`password`", nullable = false)
     private String password;
 
-    @Column(name = "verifyToken", nullable = true)
+    @Column(name = "`verifyToken`", nullable = true)
     private String verifyToken;
 
-    @Column(name = "verifiedAt", nullable = true)
+    @Column(name = "`verifiedAt`", nullable = true)
     private Timestamp verifiedAt;
 
     @OneToMany(mappedBy = "user")
     private List<Account> accounts = new ArrayList<Account>();
 
     @OneToMany
-    @JoinColumn(name = "fk_Transactions_Users")
+    @JoinColumn(name = "`fk_Transactions_Users`")
     private List<Transaction> transactions = new ArrayList<Transaction>();
 
     public User() {
