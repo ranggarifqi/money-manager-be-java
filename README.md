@@ -27,14 +27,9 @@ create table person (
 
 ```
 
-3. Then, run this command to inspect the SQL first
+3. If all good, then run this
 ```
-./mvnw liquibase:updateSQL
-```
-
-4. If all good, then run this
-```
-./mvnw liquibase:update
+./mvnw compile package
 ```
 
 ## How to Rollback Migration
@@ -46,3 +41,9 @@ create table person (
 ./mvnw liquibase:rollback -Dliquibase.rollbackCount=1
 ```
 
+Then if you want to migrate again, execute this
+
+```
+./mvnw liquibase:updateSQL
+./mvnw liquibase:update
+```

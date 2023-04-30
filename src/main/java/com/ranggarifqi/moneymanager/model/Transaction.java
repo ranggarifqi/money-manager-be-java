@@ -9,57 +9,49 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Transactions")
+@Table(name = "`Transactions`")
 public class Transaction extends Audit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "`id`", nullable = false)
     private UUID id;
 
-    @Column(name = "userId", nullable = false)
+    @Column(name = "`userId`", nullable = false)
     private UUID userId;
 
-    @Column(name = "fromAccountId", nullable = false)
-    private UUID fromAccountId;
-
-    @Column(name = "toAccountId", nullable = true)
-    private UUID toAccountId;
-
-    @Column(name = "transactionType", nullable = false)
-    private String transactionType;
-
-    @Column(name = "date", nullable = false)
-    private Date date;
-
-    @Column(name = "amount", scale = 14, precision = 2, nullable = false)
-    private double amount;
-
-    @Column(name = "note", nullable = true)
-    private String note;
-
     @ManyToOne
-    @JoinColumn(name = "fk_Transactions_Accounts_from")
+    @JoinColumn(name = "`fromAccountId`", nullable = false)
     private Account fromAccount;
 
     @ManyToOne
-    @JoinColumn(name = "fk_Transactions_Accounts_to")
+    @JoinColumn(name = "`toAccountId`", nullable = true)
     private Account toAccount;
+
+    @Column(name = "`transactionType`", nullable = false)
+    private String transactionType;
+
+    @Column(name = "`date`", nullable = false)
+    private Date date;
+
+    @Column(name = "`amount`", scale = 14, precision = 2, nullable = false)
+    private double amount;
+
+    @Column(name = "`note`", nullable = true)
+    private String note;
 
     @ManyToMany
     @JoinTable(
-        name = "TransactionCategories",
-        joinColumns = {@JoinColumn(name = "fk_TransactionCategories_Transactions")},
-        inverseJoinColumns = {@JoinColumn(name = "fk_TransactionCategories_Categories")}
+        name = "`TransactionCategories`",
+        joinColumns = {@JoinColumn(name = "`transactionId`")},
+        inverseJoinColumns = {@JoinColumn(name = "`categoryId`")}
     )
     private Set<Category> categories = new HashSet<Category>();
 
     public Transaction() {
     }
 
-    public Transaction(UUID userId, UUID fromAccountId, UUID toAccountId, String transactionType, Date date, double amount, String note, Timestamp createdAt, Timestamp updatedAt) {
+    public Transaction(UUID userId, String transactionType, Date date, double amount, String note, Timestamp createdAt, Timestamp updatedAt) {
         super(createdAt, updatedAt);
-        this.fromAccountId = fromAccountId;
-        this.toAccountId = toAccountId;
         this.transactionType = transactionType;
         this.date = date;
         this.amount = amount;
@@ -83,21 +75,6 @@ public class Transaction extends Audit {
         this.userId = userId;
     }
 
-    public UUID getFromAccountId() {
-        return fromAccountId;
-    }
-
-    public void setFromAccountId(UUID fromAccountId) {
-        this.fromAccountId = fromAccountId;
-    }
-
-    public UUID getToAccountId() {
-        return toAccountId;
-    }
-
-    public void setToAccountId(UUID toAccountId) {
-        this.toAccountId = toAccountId;
-    }
 
     public String getTransactionType() {
         return transactionType;

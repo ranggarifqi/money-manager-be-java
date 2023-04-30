@@ -6,37 +6,33 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Accounts")
+@Table(name = "`Accounts`")
 public class Account extends Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "`id`", nullable = false)
     private UUID id;
 
-    @Column(name = "accountType", nullable = false)
+    @Column(name = "`accountType`", nullable = false)
     private String accountType;
 
-    @Column(name = "userId", nullable = false)
-    private UUID userId;
+    @ManyToOne
+    @JoinColumn(name = "`userId`", nullable = false)
+    private User user;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "`name`", nullable = false)
     private String name;
 
-    @Column(name = "balance", precision = 2, scale = 14, nullable = false)
+    @Column(name = "`balance`", precision = 2, scale = 14, nullable = false)
     private double balance = 0;
-
-    @ManyToOne
-    @JoinColumn(name = "fk_Accounts_Users")
-    private User user;
 
     public Account() {
     }
 
-    public Account(String accountType, UUID userId, String name, double balance, Timestamp createdAt, Timestamp updatedAt) {
+    public Account(String accountType, String name, double balance, Timestamp createdAt, Timestamp updatedAt) {
         super(createdAt, updatedAt);
         this.accountType = accountType;
-        this.userId = userId;
         this.name = name;
         this.balance = balance;
     }
@@ -55,14 +51,6 @@ public class Account extends Audit {
 
     public void setAccountType(String accountType) {
         this.accountType = accountType;
-    }
-
-    public UUID getUserId() {
-        return userId;
-    }
-
-    public void setUserId(UUID userId) {
-        this.userId = userId;
     }
 
     public String getName() {

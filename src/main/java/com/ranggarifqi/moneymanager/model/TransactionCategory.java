@@ -6,17 +6,17 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 @Entity
-@Table(name = "TransactionCategories")
+@Table(name = "`TransactionCategories`")
 public class TransactionCategory extends Audit{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "`id`", nullable = false)
     private UUID id;
 
-    @Column(name = "transactionId", nullable = false)
+    @Column(name = "`transactionId`", nullable = false)
     private UUID transactionId;
 
-    @Column(name = "categoryId", nullable = false)
+    @Column(name = "`categoryId`", nullable = false)
     private UUID categoryId;
 
     public TransactionCategory() {

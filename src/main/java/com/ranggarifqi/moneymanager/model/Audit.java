@@ -8,11 +8,11 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 public class Audit {
-    @Column(name = "createdAt", nullable = false)
+    @Column(name = "`createdAt`", nullable = false)
     @CreatedDate
     private Timestamp createdAt;
 
-    @Column(name = "updatedAt", nullable = true)
+    @Column(name = "`updatedAt`", nullable = true)
     @LastModifiedDate
     private Timestamp updatedAt;
 

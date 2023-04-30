@@ -1,6 +1,7 @@
 package com.ranggarifqi.moneymanager.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Type;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -8,43 +9,50 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Users")
+@Table(name = "`Users`")
 public class User extends Audit {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "`name`", nullable = false)
     private String name;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "`email`", nullable = false)
     private String email;
 
-    @Column(name = "phone", nullable = false)
+    @Column(name = "`phone`", nullable = false)
     private String phone;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "`password`", nullable = false)
     private String password;
+
+    @Column(name = "`verifyToken`", nullable = true)
+    private String verifyToken;
+
+    @Column(name = "`verifiedAt`", nullable = true)
+    private Timestamp verifiedAt;
 
     @OneToMany(mappedBy = "user")
     private List<Account> accounts = new ArrayList<Account>();
 
     @OneToMany
-    @JoinColumn(name = "fk_Transactions_Users")
+    @JoinColumn(name = "`userId`")
     private List<Transaction> transactions = new ArrayList<Transaction>();
 
     public User() {
         super();
     }
 
-    public User(String name, String email, String phone, String password, Timestamp createdAt, Timestamp updatedAt) {
+    public User(String name, String email, String phone, String password, String verifyToken, Timestamp createdAt, Timestamp updatedAt, Timestamp verifiedAt) {
         super(createdAt, updatedAt);
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.password = password;
+        this.verifyToken = verifyToken;
+        this.verifiedAt = verifiedAt;
     }
 
     public UUID getId() {
@@ -101,5 +109,36 @@ public class User extends Audit {
 
     public void setTransactions(List<Transaction> transactions) {
         this.transactions = transactions;
+    }
+
+    public String getVerifyToken() {
+        return verifyToken;
+    }
+
+    public void setVerifyToken(String verifyToken) {
+        this.verifyToken = verifyToken;
+    }
+
+    public Timestamp getVerifiedAt() {
+        return verifiedAt;
+    }
+
+    public void setVerifiedAt(Timestamp verifiedAt) {
+        this.verifiedAt = verifiedAt;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", password='" + password + '\'' +
+                ", verifyToken='" + verifyToken + '\'' +
+                ", verifiedAt=" + verifiedAt +
+                ", accounts=" + accounts +
+                ", transactions=" + transactions +
+                '}';
     }
 }
