@@ -11,7 +11,6 @@ import java.util.Properties;
 
 @Service
 public class JakartaMailService implements IEmailService{
-
     @Value("${email.host}")
     private String host;
 
@@ -56,6 +55,7 @@ public class JakartaMailService implements IEmailService{
         Properties prop = new Properties();
         prop.put("mail.smtp.auth", true);
         prop.put("mail.smtp.starttls.enable", "true");
+        prop.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         prop.put("mail.smtp.host", this.host);
         prop.put("mail.smtp.port", this.port);
         prop.put("mail.smtp.ssl.trust", this.host);
