@@ -1,6 +1,5 @@
 package com.ranggarifqi.moneymanager.user;
 
-import com.ranggarifqi.moneymanager.common.datetime.IDateTimeService;
 import com.ranggarifqi.moneymanager.common.email.IEmailService;
 import com.ranggarifqi.moneymanager.common.exception.ConflictException;
 import com.ranggarifqi.moneymanager.model.User;
@@ -14,6 +13,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.Clock;
+
 @ExtendWith(MockitoExtension.class)
 public class UserServiceSignupTests {
 
@@ -24,16 +25,16 @@ public class UserServiceSignupTests {
     private PasswordEncoder passwordEncoder;
 
     @Mock
-    private IDateTimeService dateTimeService;
+    private IEmailService emailService;
 
     @Mock
-    private IEmailService emailService;
+    private Clock clock;
 
     private UserService userService;
 
     @BeforeEach
     void beforeEach() {
-        userService = new UserService(this.userRepository, this.passwordEncoder, dateTimeService, emailService);
+        userService = new UserService(this.userRepository, this.passwordEncoder, emailService, clock);
         userService.setBaseUrl("http://test.com");
         userService.setUserVerificationPath("/some-path");
     }
