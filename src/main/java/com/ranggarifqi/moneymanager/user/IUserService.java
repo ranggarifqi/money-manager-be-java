@@ -5,4 +5,6 @@ import com.ranggarifqi.moneymanager.user.dto.SignUpDTO;
 
 public interface IUserService {
     User signUp(SignUpDTO payload);
+
+    User verifyUser(String token);
 }
