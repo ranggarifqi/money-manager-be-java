@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class UserRepository implements IUserRepository {
         return users.get(0);
     }
 
+    @Transactional
     @Override
     public void create(User payload) {
         this.entityManager.persist(payload);
