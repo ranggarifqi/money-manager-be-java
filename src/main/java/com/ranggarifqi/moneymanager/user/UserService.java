@@ -4,6 +4,8 @@ import com.ranggarifqi.moneymanager.common.email.IEmailService;
 import com.ranggarifqi.moneymanager.common.exception.ConflictException;
 import com.ranggarifqi.moneymanager.model.User;
 import com.ranggarifqi.moneymanager.user.dto.SignUpDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService implements IUserService{
+
+    Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Value("${url.baseUrl}")
     private String baseUrl;
@@ -35,7 +39,7 @@ public class UserService implements IUserService{
         // Find if email exists
         User existingUser = this.userRepository.findByEmail(payload.email());
         if (existingUser != null) {
-            throw new ConflictException("User with email" + payload.email() + " already exists");
+            throw new ConflictException("User with email " + payload.email() + " already exists");
         }
 
         // Encrypt the password
