@@ -9,6 +9,9 @@ spring.datasource.username=
 spring.datasource.password=
 spring.liquibase.change-log=classpath:migrations/changelog.sql
 
+log4j.logger.org.hibernate.SQL=debug
+log4j.logger.org.hibernate.type=trace
+
 email.host=
 email.port=
 email.user=

@@ -5,11 +5,11 @@ import jakarta.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "TransactionTypes")
+@Table(name = "`TransactionTypes`")
 public class TransactionType extends Audit {
 
     @Id
-    @Column(name = "name", nullable = false)
+    @Column(name = "`name`", nullable = false)
     private String name;
 
     public TransactionType() {

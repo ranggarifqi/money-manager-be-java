@@ -8,34 +8,34 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Categories")
+@Table(name = "`Categories`")
 public class Category extends Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "`id`", nullable = false)
     private UUID id;
 
-    @Column(name = "parentId", nullable = true)
+    @Column(name = "`parentId`", nullable = true)
     private UUID parentId;
 
-    @Column(name = "userId", nullable = false)
+    @Column(name = "`userId`", nullable = false)
     private UUID userId;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "`name`", nullable = false)
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "fk_Categories_Users")
+    @JoinColumn(name = "`fk_Categories_Users`")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "fk_Categories_parent")
+    @JoinColumn(name = "`fk_Categories_parent`")
     private Category parent;
 
     @ManyToMany
     @JoinTable(
-        name = "TransactionCategories",
+        name = "`TransactionCategories`",
         joinColumns = {@JoinColumn(name = "fk_TransactionCategories_Categories")},
         inverseJoinColumns = {@JoinColumn(name = "fk_TransactionCategories_Transactions")}
     )

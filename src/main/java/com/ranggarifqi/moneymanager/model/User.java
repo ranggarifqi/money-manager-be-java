@@ -38,7 +38,7 @@ public class User extends Audit {
     private List<Account> accounts = new ArrayList<Account>();
 
     @OneToMany
-    @JoinColumn(name = "`fk_Transactions_Users`")
+    @JoinColumn(name = "`userId`")
     private List<Transaction> transactions = new ArrayList<Transaction>();
 
     public User() {
@@ -125,5 +125,20 @@ public class User extends Audit {
 
     public void setVerifiedAt(Timestamp verifiedAt) {
         this.verifiedAt = verifiedAt;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", password='" + password + '\'' +
+                ", verifyToken='" + verifyToken + '\'' +
+                ", verifiedAt=" + verifiedAt +
+                ", accounts=" + accounts +
+                ", transactions=" + transactions +
+                '}';
     }
 }

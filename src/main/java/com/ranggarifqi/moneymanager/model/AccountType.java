@@ -5,11 +5,11 @@ import jakarta.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "AccountTypes")
+@Table(name = "`AccountTypes`")
 public class AccountType extends Audit {
 
     @Id
-    @Column(name = "name", nullable = false)
+    @Column(name = "`name`", nullable = false)
     private String name;
 
     public AccountType() {
