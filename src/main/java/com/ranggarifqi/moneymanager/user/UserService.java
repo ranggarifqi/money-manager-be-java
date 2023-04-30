@@ -1,5 +1,6 @@
 package com.ranggarifqi.moneymanager.user;
 
+import com.ranggarifqi.moneymanager.common.datetime.IDateTimeService;
 import com.ranggarifqi.moneymanager.common.email.IEmailService;
 import com.ranggarifqi.moneymanager.common.exception.ConflictException;
 import com.ranggarifqi.moneymanager.common.exception.NotFoundException;
@@ -29,12 +30,15 @@ public class UserService implements IUserService{
     private final IUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    private final IDateTimeService dateTimeService;
+
     private final IEmailService emailService;
 
     @Autowired
-    public UserService(IUserRepository userRepository, PasswordEncoder passwordEncoder, IEmailService emailService) {
+    public UserService(IUserRepository userRepository, PasswordEncoder passwordEncoder, IDateTimeService dateTimeService, IEmailService emailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.dateTimeService = dateTimeService;
         this.emailService = emailService;
     }
 
@@ -70,8 +74,7 @@ public class UserService implements IUserService{
             throw new NotFoundException("Invalid verify token");
         }
 
-        Date date = new Date();
-        Timestamp verifiedAt = new Timestamp(date.getTime());
+        Timestamp verifiedAt = this.dateTimeService.getCurrentTimestamp();
 
         user.setVerifiedAt(verifiedAt);
         user.setVerifyToken(null);
