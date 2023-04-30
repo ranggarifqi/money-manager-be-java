@@ -1,5 +1,6 @@
 package com.ranggarifqi.moneymanager.controllers.v1;
 
+import com.ranggarifqi.moneymanager.common.response.ErrorResponse;
 import com.ranggarifqi.moneymanager.model.User;
 import com.ranggarifqi.moneymanager.user.IUserService;
 import com.ranggarifqi.moneymanager.user.dto.SignUpDTO;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,21 +28,10 @@ public class UserController {
 
     @PostMapping(value = "/signup")
     public User signUp(@Valid @RequestBody SignUpDTO payload) {
-        return this.userService.signUp(payload);
+        try {
+            return this.userService.signUp(payload);
+        } catch (Exception e) {
+            throw ErrorResponse.construct(e);
+        }
     }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleValidationExceptions(
-            MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-
-        return errors;
-    }
-
 }
