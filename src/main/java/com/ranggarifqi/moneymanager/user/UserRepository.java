@@ -37,6 +37,20 @@ public class UserRepository implements IUserRepository {
         return users.get(0);
     }
 
+    @Override
+    public User findByVerifyToken(String token) {
+        this.logger.info("Finding user with verifyToken = " + token);
+        TypedQuery<User> query = this.entityManager.createQuery("From User WHERE verifyToken = :verifyToken", User.class);
+        query.setParameter("verifyToken", token);
+
+        List<User> users = query.getResultList();
+        if (users.size() == 0) {
+            return null;
+        }
+
+        return users.get(0);
+    }
+
     @Transactional
     @Override
     public void create(User payload) {
