@@ -1,6 +1,5 @@
 package com.ranggarifqi.moneymanager.user;
 
-import com.ranggarifqi.moneymanager.common.datetime.IDateTimeService;
 import com.ranggarifqi.moneymanager.common.email.IEmailService;
 import com.ranggarifqi.moneymanager.common.exception.ConflictException;
 import com.ranggarifqi.moneymanager.common.exception.NotFoundException;
@@ -14,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.Date;
+import java.time.Clock;
 
 @Service
 public class UserService implements IUserService{
@@ -30,16 +29,16 @@ public class UserService implements IUserService{
     private final IUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    private final IDateTimeService dateTimeService;
-
     private final IEmailService emailService;
 
+    private final Clock clock;
+
     @Autowired
-    public UserService(IUserRepository userRepository, PasswordEncoder passwordEncoder, IDateTimeService dateTimeService, IEmailService emailService) {
+    public UserService(IUserRepository userRepository, PasswordEncoder passwordEncoder, IEmailService emailService, Clock clock) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.dateTimeService = dateTimeService;
         this.emailService = emailService;
+        this.clock = clock;
     }
 
     @Override
@@ -74,7 +73,7 @@ public class UserService implements IUserService{
             throw new NotFoundException("Invalid verify token");
         }
 
-        Timestamp verifiedAt = this.dateTimeService.getCurrentTimestamp();
+        Timestamp verifiedAt = new Timestamp(this.clock.millis());
 
         user.setVerifiedAt(verifiedAt);
         user.setVerifyToken(null);
