@@ -4,6 +4,7 @@ import com.ranggarifqi.moneymanager.common.response.APIResponse;
 import com.ranggarifqi.moneymanager.common.response.ErrorResponse;
 import com.ranggarifqi.moneymanager.model.User;
 import com.ranggarifqi.moneymanager.user.IUserService;
+import com.ranggarifqi.moneymanager.user.dto.SignInDTO;
 import com.ranggarifqi.moneymanager.user.dto.SignUpDTO;
 import com.ranggarifqi.moneymanager.user.dto.SignUpResponse;
 import jakarta.validation.Valid;
@@ -44,6 +45,17 @@ public class UserController {
         try {
             this.userService.verifyUser(token);
             return new RedirectView(this.userVerificationRedirect);
+        } catch (Exception e) {
+            throw ErrorResponse.construct(e);
+        }
+    }
+
+    @PostMapping(value = "/signin")
+    public ResponseEntity<APIResponse<String>> signIn(@Valid @RequestBody SignInDTO payload) {
+        try {
+            String jwt = this.userService.signIn(payload.getEmail(), payload.getPassword());
+
+            return APIResponse.constructResponse(jwt);
         } catch (Exception e) {
             throw ErrorResponse.construct(e);
         }

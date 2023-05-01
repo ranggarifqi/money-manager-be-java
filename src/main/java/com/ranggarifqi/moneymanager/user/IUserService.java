@@ -7,4 +7,6 @@ public interface IUserService {
     User signUp(SignUpDTO payload);
 
     User verifyUser(String token);
+
+    String signIn(String email, String password);
 }

@@ -2,6 +2,7 @@ package com.ranggarifqi.moneymanager.user.services;
 
 import com.ranggarifqi.moneymanager.common.email.IEmailService;
 import com.ranggarifqi.moneymanager.common.exception.ConflictException;
+import com.ranggarifqi.moneymanager.common.jwt.IJWTService;
 import com.ranggarifqi.moneymanager.model.User;
 import com.ranggarifqi.moneymanager.user.IUserRepository;
 import com.ranggarifqi.moneymanager.user.UserService;
@@ -32,11 +33,14 @@ public class UserServiceSignupTests {
     @Mock
     private Clock clock;
 
+    @Mock
+    private IJWTService jwtService;
+
     private UserService userService;
 
     @BeforeEach
     void beforeEach() {
-        userService = new UserService(this.userRepository, this.passwordEncoder, emailService, clock);
+        userService = new UserService(this.userRepository, this.passwordEncoder, this.emailService, this.clock, this.jwtService);
         userService.setBaseUrl("http://test.com");
         userService.setUserVerificationPath("/some-path");
     }

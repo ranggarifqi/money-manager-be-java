@@ -20,3 +20,7 @@ email.password=
 url.baseUrl=
 url.userVerificationPath=
 url.userVerificationRedirect=
+
+jwt.cookieName=
+jwt.secret=
+jwt.expirationMs=

@@ -20,7 +20,8 @@ public class SecurityConfiguration {
                     .requestMatchers(
                         "/error",
                         "/v1/users/signup",
-                        "/v1/users/verify"
+                        "/v1/users/verify",
+                        "/v1/users/signin"
                     ).permitAll()
         );
 
