@@ -38,7 +38,7 @@ public class JWTService implements IJWTService{
                 .claim("email", email)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + this.expirationMs))
-                .signWith(SignatureAlgorithm.ES512, this.secret)
+                .signWith(SignatureAlgorithm.HS512, this.secret)
                 .compact();
     }
 }
