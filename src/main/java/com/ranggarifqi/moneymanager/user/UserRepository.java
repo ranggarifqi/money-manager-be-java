@@ -40,11 +40,10 @@ public class UserRepository implements IUserRepository {
     @Override
     public User findByVerifyToken(String token) {
         this.logger.info("Finding user with verifyToken = " + token);
-        TypedQuery<User> query = this.entityManager.createQuery("From User WHERE verifyToken = :verifyToken", User.class);
+        TypedQuery<User> query = this.entityManager.createQuery("FROM User WHERE verifyToken = :verifyToken", User.class);
         query.setParameter("verifyToken", token);
 
         List<User> users = query.getResultList();
-        this.entityManager.detach(users);
 
         if (users.size() == 0) {
             return null;
