@@ -1,8 +1,10 @@
-package com.ranggarifqi.moneymanager.user;
+package com.ranggarifqi.moneymanager.user.services;
 
 import com.ranggarifqi.moneymanager.common.email.IEmailService;
 import com.ranggarifqi.moneymanager.common.exception.NotFoundException;
 import com.ranggarifqi.moneymanager.model.User;
+import com.ranggarifqi.moneymanager.user.IUserRepository;
+import com.ranggarifqi.moneymanager.user.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
