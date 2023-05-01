@@ -2,6 +2,7 @@ package com.ranggarifqi.moneymanager.user;
 
 import com.ranggarifqi.moneymanager.common.email.IEmailService;
 import com.ranggarifqi.moneymanager.common.exception.ConflictException;
+import com.ranggarifqi.moneymanager.common.exception.NotFoundException;
 import com.ranggarifqi.moneymanager.model.User;
 import com.ranggarifqi.moneymanager.user.dto.SignUpDTO;
 import org.slf4j.Logger;
@@ -10,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.sql.Timestamp;
+import java.time.Clock;
 
 @Service
 public class UserService implements IUserService{
@@ -27,11 +31,14 @@ public class UserService implements IUserService{
 
     private final IEmailService emailService;
 
+    private final Clock clock;
+
     @Autowired
-    public UserService(IUserRepository userRepository, PasswordEncoder passwordEncoder, IEmailService emailService) {
+    public UserService(IUserRepository userRepository, PasswordEncoder passwordEncoder, IEmailService emailService, Clock clock) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
+        this.clock = clock;
     }
 
     @Override
@@ -57,6 +64,23 @@ public class UserService implements IUserService{
         this.emailService.sendSimpleEmail(newUser.getEmail(), subject, htmlBody);
 
         return newUser;
+    }
+
+    @Override
+    public User verifyUser(String token) {
+        User user = this.userRepository.findByVerifyToken(token);
+        if (user == null) {
+            throw new NotFoundException("Invalid verify token");
+        }
+
+        Timestamp verifiedAt = new Timestamp(this.clock.millis());
+
+        user.setVerifiedAt(verifiedAt);
+        user.setVerifyToken(null);
+
+        this.userRepository.update(user);
+
+        return user;
     }
 
     public void setBaseUrl(String baseUrl) {

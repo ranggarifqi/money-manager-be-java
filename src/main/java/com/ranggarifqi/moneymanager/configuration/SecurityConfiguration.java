@@ -17,7 +17,11 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests(
             config ->
                 config
-                    .requestMatchers("/error", "/v1/users/signup").permitAll()
+                    .requestMatchers(
+                        "/error",
+                        "/v1/users/signup",
+                        "/v1/users/verify"
+                    ).permitAll()
         );
 
         return http.build();

@@ -1,8 +1,10 @@
-package com.ranggarifqi.moneymanager.user;
+package com.ranggarifqi.moneymanager.user.services;
 
 import com.ranggarifqi.moneymanager.common.email.IEmailService;
 import com.ranggarifqi.moneymanager.common.exception.ConflictException;
 import com.ranggarifqi.moneymanager.model.User;
+import com.ranggarifqi.moneymanager.user.IUserRepository;
+import com.ranggarifqi.moneymanager.user.UserService;
 import com.ranggarifqi.moneymanager.user.dto.SignUpDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,8 +15,10 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.Clock;
+
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTests {
+public class UserServiceSignupTests {
 
     @Mock
     private IUserRepository userRepository;
@@ -25,11 +29,14 @@ public class UserServiceTests {
     @Mock
     private IEmailService emailService;
 
+    @Mock
+    private Clock clock;
+
     private UserService userService;
 
     @BeforeEach
     void beforeEach() {
-        userService = new UserService(this.userRepository, this.passwordEncoder, emailService);
+        userService = new UserService(this.userRepository, this.passwordEncoder, emailService, clock);
         userService.setBaseUrl("http://test.com");
         userService.setUserVerificationPath("/some-path");
     }

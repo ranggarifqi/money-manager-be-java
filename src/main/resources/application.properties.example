@@ -19,3 +19,4 @@ email.password=
 
 url.baseUrl=
 url.userVerificationPath=
+url.userVerificationRedirect=
