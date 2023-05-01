@@ -2,6 +2,7 @@ package com.ranggarifqi.moneymanager.user.services;
 
 import com.ranggarifqi.moneymanager.common.email.IEmailService;
 import com.ranggarifqi.moneymanager.common.exception.NotFoundException;
+import com.ranggarifqi.moneymanager.common.jwt.IJWTService;
 import com.ranggarifqi.moneymanager.model.User;
 import com.ranggarifqi.moneymanager.user.IUserRepository;
 import com.ranggarifqi.moneymanager.user.UserService;
@@ -32,6 +33,9 @@ public class UserServiceVerifyUserTests {
     @Mock
     private Clock clock;
 
+    @Mock
+    private IJWTService jwtService;
+
     private UserService userService;
 
     private final String token = "someToken";
@@ -41,7 +45,7 @@ public class UserServiceVerifyUserTests {
         String instantExpected = "2014-12-22T10:15:30Z";
         this.clock = Clock.fixed(Instant.parse(instantExpected), ZoneId.of("Asia/Jakarta"));
 
-        userService = new UserService(this.userRepository, this.passwordEncoder, this.emailService, this.clock);
+        userService = new UserService(this.userRepository, this.passwordEncoder, this.emailService, this.clock, this.jwtService);
     }
 
     @Test
