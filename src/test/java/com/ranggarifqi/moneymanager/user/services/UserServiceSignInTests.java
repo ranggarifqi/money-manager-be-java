@@ -1,6 +1,7 @@
 package com.ranggarifqi.moneymanager.user.services;
 
 import com.ranggarifqi.moneymanager.common.email.IEmailService;
+import com.ranggarifqi.moneymanager.common.exception.ForbiddenException;
 import com.ranggarifqi.moneymanager.common.exception.UnauthorizedException;
 import com.ranggarifqi.moneymanager.common.jwt.IJWTService;
 import com.ranggarifqi.moneymanager.model.User;
@@ -16,7 +17,9 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.sql.Timestamp;
 import java.time.Clock;
+import java.util.Date;
 import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
@@ -97,11 +100,40 @@ public class UserServiceSignInTests {
     }
 
     @Test
+    public void shouldThrowForbiddenExceptionIfUserIsNotVerified() {
+        User existingUser = new User();
+        existingUser.setId(UUID.randomUUID());
+        existingUser.setEmail(this.email);
+        existingUser.setPassword(this.password);
+
+        Mockito.when(this.userRepository.findByEmail(this.email)).thenReturn(existingUser);
+        Mockito.when(this.passwordEncoder.matches(this.password, existingUser.getPassword())).thenReturn(true);
+
+        Exception error = null;
+
+        try {
+            this.userService.signIn(this.email, this.password);
+        } catch (Exception e) {
+            error = e;
+        }
+
+        Assertions.assertNotNull(error);
+        Assertions.assertInstanceOf(ForbiddenException.class, error);
+
+        Assertions.assertEquals("Please verify your account", error.getMessage());
+
+        Mockito.verify(this.userRepository, Mockito.times(1)).findByEmail(ArgumentMatchers.anyString());
+        Mockito.verify(this.passwordEncoder, Mockito.times(1)).matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString());
+        Mockito.verify(this.jwtService, Mockito.times(0)).generate(ArgumentMatchers.anyString(), ArgumentMatchers.anyString());
+    }
+
+    @Test
     public void shouldReturnJWTString() {
         User existingUser = new User();
         existingUser.setId(UUID.randomUUID());
         existingUser.setEmail(this.email);
         existingUser.setPassword("someOtherPassword");
+        existingUser.setVerifiedAt(new Timestamp(new Date().getTime()));
 
         Mockito.when(this.userRepository.findByEmail(this.email)).thenReturn(existingUser);
         Mockito.when(this.passwordEncoder.matches(this.password, existingUser.getPassword())).thenReturn(true);

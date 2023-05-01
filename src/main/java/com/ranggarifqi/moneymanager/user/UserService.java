@@ -2,6 +2,7 @@ package com.ranggarifqi.moneymanager.user;
 
 import com.ranggarifqi.moneymanager.common.email.IEmailService;
 import com.ranggarifqi.moneymanager.common.exception.ConflictException;
+import com.ranggarifqi.moneymanager.common.exception.ForbiddenException;
 import com.ranggarifqi.moneymanager.common.exception.NotFoundException;
 import com.ranggarifqi.moneymanager.common.exception.UnauthorizedException;
 import com.ranggarifqi.moneymanager.common.jwt.IJWTService;
@@ -98,6 +99,10 @@ public class UserService implements IUserService{
         boolean isPasswordMatching = this.passwordEncoder.matches(password, existingUser.getPassword());
         if (!isPasswordMatching) {
             throw new UnauthorizedException("Invalid email or password");
+        }
+
+        if (existingUser.getVerifiedAt() == null) {
+            throw new ForbiddenException("Please verify your account");
         }
 
         return this.jwtService.generate(existingUser.getId().toString(), existingUser.getEmail());
