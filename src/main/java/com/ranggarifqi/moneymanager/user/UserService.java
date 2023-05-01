@@ -100,8 +100,6 @@ public class UserService implements IUserService{
             throw new UnauthorizedException("Invalid email or password");
         }
 
-        this.logger.info("User ID Str = " + existingUser.getId().toString());
-
         return this.jwtService.generate(existingUser.getId().toString(), existingUser.getEmail());
     }
 
