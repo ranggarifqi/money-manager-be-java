@@ -7,6 +7,8 @@ public interface IUserRepository {
 
     User findByVerifyToken(String token);
 
+    User getReferenceById(String userId);
+
     void create(User payload);
 
     void update(User payload);

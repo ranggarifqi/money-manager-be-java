@@ -52,6 +52,11 @@ public class UserRepository implements IUserRepository {
         return users.get(0);
     }
 
+    @Override
+    public User getReferenceById(String userId) {
+        return this.entityManager.getReference(User.class, userId);
+    }
+
     @Transactional
     @Override
     public void create(User payload) {
