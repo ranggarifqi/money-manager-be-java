@@ -1,7 +1,8 @@
 package com.ranggarifqi.moneymanager.model;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -37,15 +38,18 @@ public class User extends Audit {
     @OneToMany(mappedBy = "user")
     private List<Account> accounts = new ArrayList<Account>();
 
-    @OneToMany
-    @JoinColumn(name = "`userId`")
+    @OneToMany()
     private List<Transaction> transactions = new ArrayList<Transaction>();
+
+    @Column(name="accessLevel", nullable = false)
+    @ColumnDefault("ROLE_USER")
+    private String accessLevel = "ROLE_USER";
 
     public User() {
         super();
     }
 
-    public User(String name, String email, String phone, String password, String verifyToken, Timestamp createdAt, Timestamp updatedAt, Timestamp verifiedAt) {
+    public User(String name, String email, String phone, String password, String verifyToken, Timestamp createdAt, Timestamp updatedAt, Timestamp verifiedAt, String accessLevel) {
         super(createdAt, updatedAt);
         this.name = name;
         this.email = email;
@@ -53,6 +57,7 @@ public class User extends Audit {
         this.password = password;
         this.verifyToken = verifyToken;
         this.verifiedAt = verifiedAt;
+        this.accessLevel = accessLevel;
     }
 
     public UUID getId() {
@@ -136,7 +141,16 @@ public class User extends Audit {
                 ", phone='" + phone + '\'' +
                 ", password='" + password + '\'' +
                 ", verifyToken='" + verifyToken + '\'' +
-                ", verifiedAt=" + verifiedAt +
+                ", verifiedAt=" + verifiedAt + '\'' +
+                ", accessLevel=" + accessLevel +
                 '}';
+    }
+
+    public String getAccessLevel() {
+        return accessLevel;
+    }
+
+    public void setAccessLevel(String accessLevel) {
+        this.accessLevel = accessLevel;
     }
 }
