@@ -41,7 +41,7 @@ public class User extends Audit {
     @OneToMany()
     private List<Transaction> transactions = new ArrayList<Transaction>();
 
-    @Column(name="accessLevel", nullable = false)
+    @Column(name="`accessLevel`", nullable = false)
     @ColumnDefault("ROLE_USER")
     private String accessLevel = "ROLE_USER";
 
