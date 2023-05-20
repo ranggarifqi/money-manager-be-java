@@ -4,6 +4,7 @@ import com.ranggarifqi.moneymanager.model.Account;
 import jakarta.persistence.EntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class AccountRepository implements IAccountRepository{
 
@@ -11,13 +12,14 @@ public class AccountRepository implements IAccountRepository{
 
   private final EntityManager entityManager;
 
+  @Autowired
   public AccountRepository(EntityManager entityManager) {
     this.entityManager = entityManager;
   }
 
   @Override
   public void create(Account payload) {
-    this.logger.info("Creating new account " + payload.toString());
+    this.logger.info("Creating a new account " + payload.toString());
 
     this.entityManager.persist(payload);
   }
