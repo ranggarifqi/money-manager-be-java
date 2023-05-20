@@ -61,11 +61,6 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "/guarded")
-    public String testGuarded() {
-        return "You have access";
-    }
-
     public void setUserVerificationRedirect(String userVerificationRedirect) {
         this.userVerificationRedirect = userVerificationRedirect;
     }
