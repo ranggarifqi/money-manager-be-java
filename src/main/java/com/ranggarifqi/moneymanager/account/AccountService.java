@@ -25,10 +25,10 @@ public class AccountService implements IAccountService{
   }
 
   @Override
-  public Account create(CreateAccountDTO payload) {
+  public Account create(CreateAccountDTO payload, String userId) {
     this.logger.info("Creating a new account " + payload.toString());
 
-    User user = this.userRepository.getReferenceById(payload.getUserId());
+    User user = this.userRepository.getReferenceById(userId);
     Account newAccount = new Account(payload.getAccountType(), payload.getName(), payload.getBalance());
     newAccount.setUser(user);
 

@@ -36,9 +36,9 @@ public class AccountServiceCreateTest {
   @Test
   public void shouldCallAccountRepositoryCreate() {
     UUID dummyUserId = UUID.randomUUID();
-    CreateAccountDTO payload = new CreateAccountDTO("Cash", dummyUserId.toString(), "some account type", 1000);
+    CreateAccountDTO payload = new CreateAccountDTO("Cash","some account type", 1000);
 
-    Account result = this.accountService.create(payload);
+    Account result = this.accountService.create(payload, dummyUserId.toString());
 
     Mockito.verify(this.accountRepository, Mockito.times(1)).create(ArgumentMatchers.any());
     Assertions.assertNotNull(result);
@@ -47,9 +47,9 @@ public class AccountServiceCreateTest {
   @Test
   public void shouldGetTheReferenceOfUser() {
     UUID dummyUserId = UUID.randomUUID();
-    CreateAccountDTO payload = new CreateAccountDTO("Cash", dummyUserId.toString(), "some account type", 1000);
+    CreateAccountDTO payload = new CreateAccountDTO("Cash", dummyUserId.toString(),1000);
 
-    this.accountService.create(payload);
+    this.accountService.create(payload, dummyUserId.toString());
 
     Mockito.verify(this.userRepository, Mockito.times(1)).getReferenceById(dummyUserId.toString());
   }
