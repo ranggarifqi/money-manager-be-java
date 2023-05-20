@@ -137,8 +137,6 @@ public class User extends Audit {
                 ", password='" + password + '\'' +
                 ", verifyToken='" + verifyToken + '\'' +
                 ", verifiedAt=" + verifiedAt +
-                ", accounts=" + accounts +
-                ", transactions=" + transactions +
                 '}';
     }
 }
