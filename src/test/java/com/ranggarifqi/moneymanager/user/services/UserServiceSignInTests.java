@@ -68,7 +68,7 @@ public class UserServiceSignInTests {
 
         Mockito.verify(this.userRepository, Mockito.times(1)).findByEmail(ArgumentMatchers.anyString());
         Mockito.verify(this.passwordEncoder, Mockito.times(0)).matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString());
-        Mockito.verify(this.jwtService, Mockito.times(0)).generate(ArgumentMatchers.anyString(), ArgumentMatchers.anyString());
+        Mockito.verify(this.jwtService, Mockito.times(0)).generate(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString());
     }
 
     @Test
@@ -96,7 +96,7 @@ public class UserServiceSignInTests {
 
         Mockito.verify(this.userRepository, Mockito.times(1)).findByEmail(ArgumentMatchers.anyString());
         Mockito.verify(this.passwordEncoder, Mockito.times(1)).matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString());
-        Mockito.verify(this.jwtService, Mockito.times(0)).generate(ArgumentMatchers.anyString(), ArgumentMatchers.anyString());
+        Mockito.verify(this.jwtService, Mockito.times(0)).generate(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString());
     }
 
     @Test
@@ -124,7 +124,7 @@ public class UserServiceSignInTests {
 
         Mockito.verify(this.userRepository, Mockito.times(1)).findByEmail(ArgumentMatchers.anyString());
         Mockito.verify(this.passwordEncoder, Mockito.times(1)).matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString());
-        Mockito.verify(this.jwtService, Mockito.times(0)).generate(ArgumentMatchers.anyString(), ArgumentMatchers.anyString());
+        Mockito.verify(this.jwtService, Mockito.times(0)).generate(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString());
     }
 
     @Test
@@ -137,7 +137,7 @@ public class UserServiceSignInTests {
 
         Mockito.when(this.userRepository.findByEmail(this.email)).thenReturn(existingUser);
         Mockito.when(this.passwordEncoder.matches(this.password, existingUser.getPassword())).thenReturn(true);
-        Mockito.when(this.jwtService.generate(existingUser.getId().toString(), existingUser.getEmail())).thenReturn("SomeJWTString");
+        Mockito.when(this.jwtService.generate(existingUser.getId().toString(), existingUser.getEmail(), existingUser.getAccessLevel())).thenReturn("SomeJWTString");
 
         Exception error = null;
         String result = null;
@@ -153,6 +153,6 @@ public class UserServiceSignInTests {
 
         Mockito.verify(this.userRepository, Mockito.times(1)).findByEmail(ArgumentMatchers.anyString());
         Mockito.verify(this.passwordEncoder, Mockito.times(1)).matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString());
-        Mockito.verify(this.jwtService, Mockito.times(1)).generate(ArgumentMatchers.anyString(), ArgumentMatchers.anyString());
+        Mockito.verify(this.jwtService, Mockito.times(1)).generate(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString());
     }
 }

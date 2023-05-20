@@ -115,3 +115,22 @@ ADD COLUMN "verifyToken" VARCHAR NULL,
 ADD COLUMN "verifiedAt" timestamptz NULL
 ;
 --rollback ALTER TABLE "Users" DROP COLUMN "verifyToken", DROP COLUMN "verifiedAt";
+
+--changeset rangga:1681555632_add_access_levels_table
+CREATE TABLE IF NOT EXISTS "AccessLevels" (
+    "name" VARCHAR NOT NULL PRIMARY KEY,
+    CONSTRAINT "AccessLevels_name_unique_idx" UNIQUE ("name")
+);
+INSERT INTO "AccessLevels" ("name")
+VALUES
+    ('ROLE_SUPERADMIN'),
+    ('ROLE_ADMIN'),
+    ('ROLE_USER')
+;
+--rollback DROP TABLE IF EXISTS "AccessLevels";
+
+--changeset rangga:1681555642_add_access_level_column_to_user_table
+ALTER TABLE "Users"
+ADD COLUMN "accessLevel" VARCHAR NOT NULL DEFAULT 'ROLE_USER',
+ADD CONSTRAINT "fk_Users_AccessLevels" FOREIGN KEY("accessLevel") REFERENCES "AccessLevels"("name") ON DELETE NO ACTION
+--rollback ALTER TABLE "Users" DROP COLUMN "accessLevel";

@@ -67,7 +67,7 @@ public class UserServiceVerifyUserTests {
 
     @Test
     public void verifyUser_shouldUpdateVerifiedAtOnValidToken() {
-        User existingUser = new User("Fulan", "test@test.com", "+62000000001", "123", this.token, null, null, null);
+        User existingUser = new User("Fulan", "test@test.com", "+62000000001", "123", this.token, null, null, null, "ROLE_USER");
 
         Mockito.when(this.userRepository.findByVerifyToken(this.token)).thenReturn(existingUser);
 

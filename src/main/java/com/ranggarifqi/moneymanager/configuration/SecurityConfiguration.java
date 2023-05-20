@@ -1,35 +1,56 @@
 package com.ranggarifqi.moneymanager.configuration;
 
+import com.ranggarifqi.moneymanager.configuration.filter.JWTAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfiguration {
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+  private final JWTAuthenticationFilter jwtAuthFilter;
 
-        http.authorizeHttpRequests(
+  @Autowired
+  public SecurityConfiguration(JWTAuthenticationFilter jwtAuthFilter) {
+    this.jwtAuthFilter = jwtAuthFilter;
+  }
+
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http.csrf().disable();
+
+    http.authorizeHttpRequests(
             config ->
-                config
-                    .requestMatchers(
-                        "/error",
-                        "/v1/users/signup",
-                        "/v1/users/verify",
-                        "/v1/users/signin"
-                    ).permitAll()
-        );
+                    config
+                            .requestMatchers(
+                                    "/error",
+                                    "/v1/users/signup",
+                                    "/v1/users/verify",
+                                    "/v1/users/signin"
+                            )
+                            .permitAll()
+                            .anyRequest()
+                            .hasAnyRole("SUPERADMIN", "ADMIN", "USER")
+    );
 
-        return http.build();
-    }
+    http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-    @Bean
-    public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
-    }
+    http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+    return http.build();
+  }
+
+  @Bean
+  public PasswordEncoder encoder() {
+    return new BCryptPasswordEncoder();
+  }
 }
