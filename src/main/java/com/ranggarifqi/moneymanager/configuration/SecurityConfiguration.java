@@ -40,8 +40,7 @@ public class SecurityConfiguration {
                             )
                             .permitAll()
                             .anyRequest()
-                            .authenticated()
-//                            .hasAnyRole("SUPERADMIN", "ADMIN", "USER")
+                            .hasAnyRole("SUPERADMIN", "ADMIN", "USER")
     );
 
     http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
