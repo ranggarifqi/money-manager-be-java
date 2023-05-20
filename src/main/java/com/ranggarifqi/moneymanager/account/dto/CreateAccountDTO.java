@@ -8,9 +8,6 @@ public class CreateAccountDTO {
   @NotBlank(message = "name is mandatory")
   private String name;
 
-  @NotBlank(message = "userId is mandatory")
-  private String userId;
-
   @NotBlank(message = "accountType is mandatory")
   private String accountType;
 
@@ -18,9 +15,8 @@ public class CreateAccountDTO {
   @Positive(message = "balance must be positive")
   private double balance;
 
-  public CreateAccountDTO(String name, String userId, String accountType, double balance) {
+  public CreateAccountDTO(String name, String accountType, double balance) {
     this.name = name;
-    this.userId = userId;
     this.accountType = accountType;
     this.balance = balance;
   }
@@ -31,14 +27,6 @@ public class CreateAccountDTO {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public String getUserId() {
-    return userId;
-  }
-
-  public void setUserId(String userId) {
-    this.userId = userId;
   }
 
   public String getAccountType() {
@@ -61,7 +49,6 @@ public class CreateAccountDTO {
   public String toString() {
     return "CreateAccountDTO{" +
             "name='" + name + '\'' +
-            ", userId='" + userId + '\'' +
             ", accountType='" + accountType + '\'' +
             ", balance=" + balance +
             '}';
