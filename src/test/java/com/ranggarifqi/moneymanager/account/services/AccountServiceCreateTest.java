@@ -51,6 +51,6 @@ public class AccountServiceCreateTest {
 
     this.accountService.create(payload, dummyUserId.toString());
 
-    Mockito.verify(this.userRepository, Mockito.times(1)).getReferenceById(dummyUserId.toString());
+    Mockito.verify(this.userRepository, Mockito.times(1)).getReferenceById(dummyUserId);
   }
 }

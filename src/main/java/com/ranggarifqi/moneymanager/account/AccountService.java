@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class AccountService implements IAccountService{
 
@@ -28,7 +30,7 @@ public class AccountService implements IAccountService{
   public Account create(CreateAccountDTO payload, String userId) {
     this.logger.info("Creating a new account " + payload.toString());
 
-    User user = this.userRepository.getReferenceById(userId);
+    User user = this.userRepository.getReferenceById(UUID.fromString(userId));
     Account newAccount = new Account(payload.getAccountType(), payload.getName(), payload.getBalance());
     newAccount.setUser(user);
 
