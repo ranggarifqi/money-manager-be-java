@@ -48,7 +48,7 @@ public class UserServiceSignupTests {
     @Test
     public void signUp_shouldThrowConflictExceptionIfEmailExists() {
         Mockito.when(userRepository.findByEmail("test@test.com")).thenReturn(
-            new User("Fulan", "test@test.com", "+62000000001", "123", null, null, null, null)
+            new User("Fulan", "test@test.com", "+62000000001", "123", null, null, null, null, "ROLE_USER")
         );
 
         Exception error = null;

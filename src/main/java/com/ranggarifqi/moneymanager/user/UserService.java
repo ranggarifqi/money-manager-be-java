@@ -61,7 +61,7 @@ public class UserService implements IUserService{
         String verifyToken = passwordEncoder.encode(payload.name() + "_" + payload.email() + "_" + payload.phone());
 
         // Save the user
-        User newUser = new User(payload.name(), payload.email(), payload.phone(), password, verifyToken, null, null, null);
+        User newUser = new User(payload.name(), payload.email(), payload.phone(), password, verifyToken, null, null, null, "ROLE_USER");
         userRepository.create(newUser);
 
         String subject = "User registered successfully";
