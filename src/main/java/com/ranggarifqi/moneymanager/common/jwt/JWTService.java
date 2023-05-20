@@ -2,7 +2,6 @@ package com.ranggarifqi.moneymanager.common.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +33,14 @@ public class JWTService implements IJWTService{
     }
 
     @Override
-    public String generate(String userId, String email) {
+    public String generate(String userId, String email, String accessLevel) {
         Date now = Date.from(this.clock.instant());
 
         return Jwts.builder()
                 .setSubject(email)
                 .claim("userId", userId)
                 .claim("email", email)
+                .claim("accessLevel", accessLevel)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + this.expirationMs))
                 .signWith(this.getSignInKey())

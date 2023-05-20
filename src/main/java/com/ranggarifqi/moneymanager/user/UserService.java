@@ -105,7 +105,7 @@ public class UserService implements IUserService{
             throw new ForbiddenException("Please verify your account");
         }
 
-        return this.jwtService.generate(existingUser.getId().toString(), existingUser.getEmail());
+        return this.jwtService.generate(existingUser.getId().toString(), existingUser.getEmail(), existingUser.getAccessLevel());
     }
 
     public void setBaseUrl(String baseUrl) {
