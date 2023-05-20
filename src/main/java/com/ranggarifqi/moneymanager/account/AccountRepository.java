@@ -2,6 +2,7 @@ package com.ranggarifqi.moneymanager.account;
 
 import com.ranggarifqi.moneymanager.model.Account;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,10 @@ public class AccountRepository implements IAccountRepository{
     this.entityManager = entityManager;
   }
 
+  @Transactional
   @Override
   public void create(Account payload) {
-    this.logger.info("Creating a new account " + payload.toString());
+    this.logger.info("Inserting a new account " + payload.toString());
 
     this.entityManager.persist(payload);
   }
