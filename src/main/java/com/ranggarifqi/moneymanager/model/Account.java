@@ -72,4 +72,15 @@ public class Account extends Audit {
     public User getUser() {
         return user;
     }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", accountType='" + accountType + '\'' +
+                ", user=" + user.getId() +
+                ", name='" + name + '\'' +
+                ", balance=" + balance +
+                '}';
+    }
 }
