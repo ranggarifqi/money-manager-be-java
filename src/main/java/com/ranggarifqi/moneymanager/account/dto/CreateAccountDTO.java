@@ -1,7 +1,7 @@
 package com.ranggarifqi.moneymanager.account.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 public class CreateAccountDTO {
 
@@ -11,8 +11,7 @@ public class CreateAccountDTO {
   @NotBlank(message = "accountType is mandatory")
   private String accountType;
 
-  @NotBlank(message = "balance is mandatory")
-  @Positive(message = "balance must be positive")
+  @PositiveOrZero(message = "balance must be >= 0")
   private double balance;
 
   public CreateAccountDTO(String name, String accountType, double balance) {
