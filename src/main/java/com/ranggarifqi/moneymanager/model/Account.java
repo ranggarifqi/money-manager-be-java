@@ -10,14 +10,14 @@ import java.util.UUID;
 public class Account extends Audit {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "`id`", nullable = false)
     private UUID id;
 
     @Column(name = "`accountType`", nullable = false)
     private String accountType;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "`userId`", nullable = false)
     private User user;
 
@@ -30,8 +30,7 @@ public class Account extends Audit {
     public Account() {
     }
 
-    public Account(String accountType, String name, double balance, Timestamp createdAt, Timestamp updatedAt) {
-        super(createdAt, updatedAt);
+    public Account(String accountType, String name, double balance) {
         this.accountType = accountType;
         this.name = name;
         this.balance = balance;
@@ -71,5 +70,20 @@ public class Account extends Audit {
 
     public User getUser() {
         return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", accountType='" + accountType + '\'' +
+                ", user=" + user.getId() +
+                ", name='" + name + '\'' +
+                ", balance=" + balance +
+                '}';
     }
 }

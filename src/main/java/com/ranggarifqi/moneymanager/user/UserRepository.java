@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public class UserRepository implements IUserRepository {
@@ -50,6 +51,12 @@ public class UserRepository implements IUserRepository {
         }
 
         return users.get(0);
+    }
+
+    @Override
+    public User getReferenceById(UUID userId) {
+        this.logger.info("Getting user reference by id " + userId);
+        return this.entityManager.getReference(User.class, userId);
     }
 
     @Transactional
