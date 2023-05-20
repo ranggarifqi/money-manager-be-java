@@ -56,4 +56,14 @@ public class CreateAccountDTO {
   public void setBalance(double balance) {
     this.balance = balance;
   }
+
+  @Override
+  public String toString() {
+    return "CreateAccountDTO{" +
+            "name='" + name + '\'' +
+            ", userId='" + userId + '\'' +
+            ", accountType='" + accountType + '\'' +
+            ", balance=" + balance +
+            '}';
+  }
 }
