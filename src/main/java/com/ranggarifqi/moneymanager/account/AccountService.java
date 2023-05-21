@@ -38,7 +38,7 @@ public class AccountService implements IAccountService{
     Account account = this.accountRepository.findById(UUID.fromString(id));
 
     if (account == null) {
-      throw new NotFoundException("Account with id " + id + " not found");
+      throw new NotFoundException("Account with id " + id + " doesn't exist");
     }
 
     return account;
