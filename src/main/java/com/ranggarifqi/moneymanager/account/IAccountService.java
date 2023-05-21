@@ -1,7 +1,6 @@
 package com.ranggarifqi.moneymanager.account;
 
 import com.ranggarifqi.moneymanager.account.dto.CreateAccountDTO;
-import com.ranggarifqi.moneymanager.common.exception.NotFoundException;
 import com.ranggarifqi.moneymanager.model.Account;
 
 import java.util.List;
@@ -11,7 +10,7 @@ public interface IAccountService {
 
   List<Account> findByUserId(UUID userId);
 
-  Account findById(String id) throws NotFoundException;
+  Account findById(String id, UUID ownerId) throws Exception;
 
   Account create(CreateAccountDTO payload, String userId);
 }

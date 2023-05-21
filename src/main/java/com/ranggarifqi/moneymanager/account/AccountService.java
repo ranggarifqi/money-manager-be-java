@@ -1,6 +1,7 @@
 package com.ranggarifqi.moneymanager.account;
 
 import com.ranggarifqi.moneymanager.account.dto.CreateAccountDTO;
+import com.ranggarifqi.moneymanager.common.exception.ForbiddenException;
 import com.ranggarifqi.moneymanager.common.exception.NotFoundException;
 import com.ranggarifqi.moneymanager.model.Account;
 import com.ranggarifqi.moneymanager.model.User;
@@ -34,11 +35,19 @@ public class AccountService implements IAccountService{
   }
 
   @Override
-  public Account findById(String id) throws NotFoundException {
+  public Account findById(String id, UUID ownerId) throws Exception {
+    this.logger.info("findById: id=" + id + "; ownerId=" + ownerId.toString());
+
     Account account = this.accountRepository.findById(UUID.fromString(id));
 
     if (account == null) {
       throw new NotFoundException("Account with id " + id + " doesn't exist");
+    }
+
+    boolean isNotOwned = !account.getUser().getId().equals(ownerId);
+
+    if (isNotOwned) {
+      throw new ForbiddenException("You are not authorized to access this resource");
     }
 
     return account;
