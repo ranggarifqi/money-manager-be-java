@@ -1,25 +1,27 @@
 package com.ranggarifqi.moneymanager.model;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.sql.Timestamp;
 import java.util.Date;
 
-public class Audit {
+@MappedSuperclass
+public abstract class Audit {
     @Column(name = "`createdAt`", nullable = false)
     @CreatedDate
-    private Timestamp createdAt;
+    private Date createdAt;
 
     @Column(name = "`updatedAt`", nullable = true)
     @LastModifiedDate
-    private Timestamp updatedAt;
+    private Date updatedAt;
 
     public Audit() {
     }
 
-    public Audit(Timestamp createdAt, Timestamp updatedAt) {
+    public Audit(Date createdAt, Date updatedAt) {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -28,7 +30,7 @@ public class Audit {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -36,7 +38,7 @@ public class Audit {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Timestamp updatedAt) {
+    public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
 }
