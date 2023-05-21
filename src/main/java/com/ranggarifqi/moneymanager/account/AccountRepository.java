@@ -1,6 +1,8 @@
 package com.ranggarifqi.moneymanager.account;
 
 import com.ranggarifqi.moneymanager.model.Account;
+import com.ranggarifqi.moneymanager.model.User;
+import com.ranggarifqi.moneymanager.user.IUserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
@@ -19,19 +21,24 @@ public class AccountRepository implements IAccountRepository{
 
   private final EntityManager entityManager;
 
+  private final IUserRepository userRepository;
+
   @Autowired
-  public AccountRepository(EntityManager entityManager) {
+  public AccountRepository(EntityManager entityManager, IUserRepository userRepository) {
     this.entityManager = entityManager;
+    this.userRepository = userRepository;
   }
 
   @Override
   public List<Account> findByUserId(UUID userId) {
     this.logger.info("Finding accounts by user Id " + userId.toString());
 
-    String sql = "FROM Account where userId = :userId";
+    String sql = "FROM Account where user = :user";
+
+    User user = this.userRepository.getReferenceById(userId);
 
     TypedQuery<Account> query = this.entityManager.createQuery(sql, Account.class);
-    query.setParameter("userId", userId);
+    query.setParameter("user", user);
 
     return query.getResultList();
   }
