@@ -13,10 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/v1/accounts")
@@ -31,12 +30,27 @@ public class AccountController {
     this.accountService = accountService;
   }
 
+  @GetMapping(value = "/{id}")
+  @ResponseBody
+  public ResponseEntity<APIResponse<Account>> findById(@PathVariable String id, Authentication authentication){
+    this.logger.info("Find Account by id");
+
+    User user = this.getAuthenticatedUser(authentication);
+
+    try {
+      Account account = this.accountService.findById(id, user.getId());
+      return APIResponse.constructResponse(account);
+    } catch (Exception e) {
+      throw ErrorResponse.construct(e);
+    }
+  }
+
   @PostMapping(value = "")
   public ResponseEntity<APIResponse<CreateAccountResponse>> create(@Valid @RequestBody CreateAccountDTO body, Authentication authentication) {
     try {
       this.logger.info("Creating a new account");
 
-      User user = (User) authentication.getPrincipal();
+      User user = this.getAuthenticatedUser(authentication);
 
       Account newAccount = this.accountService.create(body, user.getId().toString());
       CreateAccountResponse response = new CreateAccountResponse(newAccount.getId(), newAccount.getAccountType(), newAccount.getUser().getId().toString(), newAccount.getName(), newAccount.getBalance());
@@ -45,5 +59,9 @@ public class AccountController {
     } catch (Exception e) {
       throw ErrorResponse.construct(e);
     }
+  }
+
+  private User getAuthenticatedUser(Authentication authentication) {
+    return (User) authentication.getPrincipal();
   }
 }
