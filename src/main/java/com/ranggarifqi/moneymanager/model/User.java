@@ -1,8 +1,8 @@
 package com.ranggarifqi.moneymanager.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -35,10 +35,11 @@ public class User extends Audit {
     @Column(name = "`verifiedAt`", nullable = true)
     private Timestamp verifiedAt;
 
-    @OneToMany(mappedBy = "user")
+    @JsonManagedReference(value = "userId")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Account> accounts = new ArrayList<Account>();
 
-    @OneToMany()
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Transaction> transactions = new ArrayList<Transaction>();
 
     @Column(name="`accessLevel`", nullable = false)
