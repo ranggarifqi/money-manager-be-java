@@ -1,8 +1,10 @@
 package com.ranggarifqi.moneymanager.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -17,6 +19,7 @@ public class Account extends Audit {
     @Column(name = "`accountType`", nullable = false)
     private String accountType;
 
+    @JsonBackReference(value = "userId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "`userId`", nullable = false)
     private User user;
@@ -31,6 +34,13 @@ public class Account extends Audit {
     }
 
     public Account(String accountType, String name, double balance) {
+        this.accountType = accountType;
+        this.name = name;
+        this.balance = balance;
+    }
+
+    public Account(String accountType, String name, double balance, Date createdAt, Date updatedAt) {
+        super(createdAt, updatedAt);
         this.accountType = accountType;
         this.name = name;
         this.balance = balance;
@@ -81,7 +91,7 @@ public class Account extends Audit {
         return "Account{" +
                 "id=" + id +
                 ", accountType='" + accountType + '\'' +
-                ", user=" + user.getId() +
+                ", user=" + user.getId() + '\'' +
                 ", name='" + name + '\'' +
                 ", balance=" + balance +
                 '}';
