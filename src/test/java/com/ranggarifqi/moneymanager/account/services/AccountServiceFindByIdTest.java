@@ -76,4 +76,30 @@ public class AccountServiceFindByIdTest {
     Assertions.assertInstanceOf(ForbiddenException.class, error);
     Assertions.assertEquals("You are not authorized to access this resource", error.getMessage());
   }
+
+  @Test
+  public void shouldReturnAccountSuccessfully() {
+    User dummyUser = new User();
+    dummyUser.setId(this.dummyOwnerId);
+
+    Account account = new Account();
+    account.setId(this.dummyID);
+    account.setUser(dummyUser);
+
+    Mockito.when(this.accountRepository.findById(this.dummyID)).thenReturn(account);
+
+    Exception error = null;
+    Account result = null;
+
+    try {
+      result = this.accountService.findById(this.dummyID.toString(), this.dummyOwnerId);
+    } catch (Exception e) {
+      error = e;
+    }
+
+    Assertions.assertNull(error);
+    Assertions.assertNotNull(result);
+    Assertions.assertEquals(account.getId(), result.getId());
+    Assertions.assertEquals(account.getUser().getId(), result.getUser().getId());
+  }
 }
