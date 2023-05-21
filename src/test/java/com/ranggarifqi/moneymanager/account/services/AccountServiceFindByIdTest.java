@@ -3,6 +3,10 @@ package com.ranggarifqi.moneymanager.account.services;
 import com.ranggarifqi.moneymanager.account.AccountService;
 import com.ranggarifqi.moneymanager.account.IAccountRepository;
 import com.ranggarifqi.moneymanager.account.IAccountService;
+import com.ranggarifqi.moneymanager.common.exception.ForbiddenException;
+import com.ranggarifqi.moneymanager.common.exception.NotFoundException;
+import com.ranggarifqi.moneymanager.model.Account;
+import com.ranggarifqi.moneymanager.model.User;
 import com.ranggarifqi.moneymanager.user.IUserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +28,9 @@ public class AccountServiceFindByIdTest {
 
   private IAccountService accountService;
 
+  private final UUID dummyID = UUID.randomUUID();
+  private final UUID dummyOwnerId = UUID.randomUUID();
+
   @BeforeEach
   void beforeEach() {
     accountService = new AccountService(this.userRepository, this.accountRepository);
@@ -31,18 +38,42 @@ public class AccountServiceFindByIdTest {
 
   @Test
   public void shouldThrowNotFoundExceptionIfNotFound() {
-    UUID dummyID = UUID.randomUUID();
-    Mockito.when(this.accountRepository.findById(dummyID)).thenReturn(null);
+    Mockito.when(this.accountRepository.findById(this.dummyID)).thenReturn(null);
 
     Exception error = null;
 
     try {
-      this.accountService.findById(dummyID.toString());
+      this.accountService.findById(this.dummyID.toString(), this.dummyOwnerId);
     } catch (Exception e) {
       error = e;
     }
 
     Assertions.assertNotNull(error);
+    Assertions.assertInstanceOf(NotFoundException.class, error);
     Assertions.assertEquals("Account with id " + dummyID.toString() + " doesn't exist", error.getMessage());
+  }
+
+  @Test
+  public void shouldThrowForbiddenExceptionIfDoesNotBelongToOwner() {
+    User dummyUser = new User();
+    dummyUser.setId(UUID.randomUUID());
+
+    Account account = new Account();
+    account.setId(this.dummyID);
+    account.setUser(dummyUser);
+
+    Mockito.when(this.accountRepository.findById(this.dummyID)).thenReturn(account);
+
+    Exception error = null;
+
+    try {
+      this.accountService.findById(this.dummyID.toString(), this.dummyOwnerId);
+    } catch (Exception e) {
+      error = e;
+    }
+
+    Assertions.assertNotNull(error);
+    Assertions.assertInstanceOf(ForbiddenException.class, error);
+    Assertions.assertEquals("You are not authorized to access this resource", error.getMessage());
   }
 }
