@@ -1,6 +1,7 @@
 package com.ranggarifqi.moneymanager.controllers.v1;
 
 import com.ranggarifqi.moneymanager.account.IAccountService;
+import com.ranggarifqi.moneymanager.account.dto.AccountResponse;
 import com.ranggarifqi.moneymanager.account.dto.CreateAccountDTO;
 import com.ranggarifqi.moneymanager.account.dto.CreateAccountResponse;
 import com.ranggarifqi.moneymanager.common.response.APIResponse;
@@ -32,14 +33,15 @@ public class AccountController {
 
   @GetMapping(value = "/{id}")
   @ResponseBody
-  public ResponseEntity<APIResponse<Account>> findById(@PathVariable String id, Authentication authentication){
-    this.logger.info("Find Account by id");
+  public ResponseEntity<APIResponse<AccountResponse>> findById(@PathVariable String id, Authentication authentication){
+    this.logger.info("Find Account by id " + id);
 
     User user = this.getAuthenticatedUser(authentication);
 
     try {
       Account account = this.accountService.findById(id, user.getId());
-      return APIResponse.constructResponse(account);
+
+      return APIResponse.constructResponse(new AccountResponse(account.getId().toString(), account.getUser().getId().toString(), account.getAccountType(), account.getName(), account.getBalance(), account.getCreatedAt(), account.getUpdatedAt()));
     } catch (Exception e) {
       throw ErrorResponse.construct(e);
     }
